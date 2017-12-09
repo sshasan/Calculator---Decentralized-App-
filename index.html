@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calculator {Distributed App}</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+    <script src="/usr/local/lib/node_modules/embark/node_modules/web3/dist/web3.min.js"></script>
+
+</head>
+<body style="background-image:url(Add.png)">
+    <div id="left"></div>
+<div id="right"></div>
+<div id="top"></div>
+<div id="bottom"></div>
+
+    <div class="container">
+
+        <h2 aligh="center">Calculator {Distributed App}</h2>
+
+        <h4 id="answer"></h4>
+
+       
+
+        <table id="tbl" style="width:100%">
+                  <tr>
+                    <th align="left">  Insert values  </th>
+                  </tr> 
+                  <tr border="1">
+                    <td><input id="value1" type="number" placeholder="Value 1"></td>
+                    <td><input id="value2" type="number" placeholder="Value 2"></td> 
+                  </tr>
+        </table>
+
+        <table id="tbl" style="width:100%">
+                  <tr height="1">
+                    <td><button id="add_button" >Add</button></td>
+                    <td><button id="subtract_button">Subtract</button></td> 
+                  </tr>
+         </table>
+         
+         <table id="tbl" style="width:45%" align="center">
+                  <tr height:1px>
+                    <td><button id="modulo_button" >Modulo</button></td>
+                  </tr>
+         </table>
+
+         <table id="tbl" style="width:100%">          
+                  <tr border="1" height:1px>  
+                    <td><button id="multiply_button">Multiply</button></td>
+                    <td><button id="devide_button">Devide</button></td>
+                   </tr> 
+         </table>          
+                  
+       
+        
+        
+
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script>
+       
+        
+        if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+          
+        } else {
+            // set the provider you want from Web3.providers
+            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+           
+        }
+         web3.eth.defaultAccount = web3.eth.accounts[3];
+
+         var NewContract = web3.eth.contract([{"constant":false,"inputs":[{"name":"a","type":"int32"},{"name":"b","type":"int32"}],"name":"Devide","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"get_answer","outputs":[{"name":"","type":"int32"},{"name":"","type":"int32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"a","type":"int32"},{"name":"b","type":"int32"}],"name":"Subtract","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"a","type":"int32"},{"name":"b","type":"int32"}],"name":"Modulo","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"a","type":"int32"},{"name":"b","type":"int32"}],"name":"Multiply","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"a","type":"int32"},{"name":"b","type":"int32"}],"name":"Add","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"}]);
+
+
+
+         var Dapp_addr = NewContract.at('0x88c1a63425447da4e70be16711a44111ffdc1943');
+        console.log(Dapp_addr);
+    </script>
+
+        <script>
+
+         Dapp_addr.get_answer(function(error, result){
+                    if(!error)
+                        {
+                            $("#answer").html(String(result[1]));
+                            console.log("No error");
+                            console.log("Indian is great ",result[0],"I am also great");
+                             console.log("No error");
+                        }
+                    else{
+                        console.log("error");
+                        console.error(error);
+                        }
+                });
+
+        $("#add_button").click(function() {
+            var V1 = $("#value1").val()
+            var V2 = $("#value2").val()
+
+            var num1 = parseInt(V1)
+            var num2 = parseInt(V2)
+            Dapp_addr.Add(num1, num2);
+            console.log(num1,num2);
+            location.reload(true);
+        });
+
+        $("#subtract_button").click(function() {
+            var V1 = $("#value1").val()
+            var V2 = $("#value2").val()
+
+            var num1 = parseInt(V1)
+            var num2 = parseInt(V2)
+            Dapp_addr.Subtract(num1, num2);
+            console.log(num1,num2);
+            location.reload(true);
+        });
+
+        $("#multiply_button").click(function() {
+            var V1 = $("#value1").val()
+            var V2 = $("#value2").val()
+
+            var num1 = parseInt(V1)
+            var num2 = parseInt(V2)
+            Dapp_addr.Multiply(num1, num2);
+            console.log(num1,num2);
+            location.reload(true);
+        });
+
+        $("#devide_button").click(function() {
+            var V1 = $("#value1").val()
+            var V2 = $("#value2").val()
+
+            var num1 = parseInt(V1)
+            var num2 = parseInt(V2)
+            Dapp_addr.Devide(num1, num2);
+            console.log(num1,num2);
+            location.reload(true);
+        });
+
+        $("#modulo_button").click(function() {
+            var V1 = $("#value1").val()
+            var V2 = $("#value2").val()
+
+            var num1 = parseInt(V1)
+            var num2 = parseInt(V2)
+            Dapp_addr.Modulo(num1, num2);
+            console.log(num1,num2);
+            location.reload(true);
+        });
+
+       </script>
+
+</body>
+</html>
